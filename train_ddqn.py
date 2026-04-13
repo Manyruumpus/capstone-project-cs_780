@@ -252,20 +252,23 @@ def main():
             try:
                 last_s = s 
                 for _ in range(args.max_steps):
-                    current_obs = s if np.any(s[:17]) else last_s
                     eps = eps_by_step(steps)
 
                     if np.random.rand() < eps:
                         a = np.random.randint(len(ACTIONS))
                     else:
                         with torch.no_grad():
-                            s_t = torch.as_tensor(s, dtype=torch.float32, device=device).unsqueeze(0)
+                            obs_for_q = s if np.any(s[:17]) else (last_s if last_s is not None else s)
+                            s_t = torch.as_tensor(obs_for_q, dtype=torch.float32, device=device).unsqueeze(0)
                             qs = q(s_t).squeeze(0).detach().cpu().numpy()
                         a = int(np.argmax(qs))
-                        if np.any(s2[:17]): last_s = s2
 
                     s2, r, done = env.step(ACTIONS[a], render=False)
                     s2 = np.asarray(s2, dtype=np.float32)
+
+                    # ✅ Memory update happens AFTER step, matches agent.py
+                    if np.any(s2[:17]):
+                        last_s = s2.copy()
 
                     ep_ret += float(r)
                     replay.add(Transition(s=s, a=a, r=float(r), s2=s2, done=bool(done)))
