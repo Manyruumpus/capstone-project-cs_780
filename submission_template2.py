@@ -16,11 +16,12 @@ import numpy as np
 ACTIONS = ("L45", "L22", "FW", "R22", "R45")
 
 _MODEL = None  # stores the loaded model
+_DEVICE = None
 
 
 def _load_once():
     """Load the trained model and weights."""
-    global _MODEL
+    global _MODEL, _DEVICE
     if _MODEL is not None:
         return
 
@@ -29,6 +30,7 @@ def _load_once():
 
     import torch
     import torch.nn as nn
+    _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     class Net(nn.Module):
         def __init__(self):
@@ -44,8 +46,8 @@ def _load_once():
         def forward(self, x):
             return self.net(x)
 
-    model = Net()
-    model.load_state_dict(torch.load(wpath, map_location="cpu"))
+    model = Net().to(_DEVICE)
+    model.load_state_dict(torch.load(wpath, map_location=_DEVICE))
     model.eval()
 
     _MODEL = model
@@ -56,9 +58,9 @@ def policy(obs: np.ndarray, rng: np.random.Generator) -> str:
     _load_once()
 
     import torch
-    x = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0)
+    x = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0).to(_DEVICE)
 
     with torch.no_grad():
-        logits = _MODEL(x).squeeze(0).numpy()
+        logits = _MODEL(x).squeeze(0).cpu().numpy()
 
     return ACTIONS[int(np.argmax(logits))]

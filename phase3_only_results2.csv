@@ -1,0 +1,13 @@
+Checkpoint,Folder,Mean_L3,Std_L3
+weights_ep0100.pth,.,-1433.000,2596.694
+weights_ep0200.pth,.,-35095.800,66244.769
+weights_ep0300.pth,.,-28096.600,47953.483
+weights_ep0400.pth,.,-25030.800,51638.907
+weights_ep0500.pth,.,-26284.700,56300.436
+weights_ep0600.pth,.,-23838.600,43479.800
+weights_ep0700.pth,.,-33181.100,59647.895
+weights_ep0800.pth,.,-45882.100,75951.133
+weights_ep0900.pth,.,-9316.200,25150.650
+weights_ep1000.pth,.,-3797.400,8662.681
+weights_ep1200.pth,.,-651.500,880.641
+weights_interrupted.pth,.,-50359.100,77521.966

@@ -1,0 +1,4 @@
+episode,episode_seed,return,epsilon,total_steps,visited_states,elapsed_sec,difficulty,wall_obstacles,max_steps,box_speed
+1,0,-12900.000000,0.997625,500,2,3.26,0,0,500,2
+1,0,-12900.000000,0.997625,500,2,3.55,0,0,500,2
+1,0,-12900.000000,0.997625,500,2,3.74,0,0,500,2

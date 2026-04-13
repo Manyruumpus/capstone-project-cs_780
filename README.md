@@ -89,6 +89,27 @@ Difficulty knobs:
 
 This appends a row to `leaderboard.csv`.
 
+## Training a DQN/DDQN Agent
+
+Use `train_ddqn.py` to train weights locally:
+
+```bash
+python train_ddqn.py --obelix_py obelix.py --out weights.pth --episodes 2000 --max_steps 1000 --device auto
+```
+
+Device options:
+- `--device auto` (default): use GPU (`cuda`) if available, else CPU
+- `--device cuda`: force GPU training (errors if CUDA is unavailable)
+- `--device cpu`: force CPU training
+
+To push GPU utilization higher, increase model and optimization load:
+
+```bash
+python train_ddqn.py --obelix_py obelix.py --out weights.pth --device cuda --batch 4096 --updates_per_step 8 --hidden_dim 1024
+```
+
+If this hits out-of-memory on a 4GB GPU, reduce in this order: `--batch`, then `--updates_per_step`, then `--hidden_dim`.
+
 ## References
 
 - [Automatic Programming of Behaviour-based Robots using Reinforcement Learning](https://cdn.aaai.org/AAAI/1991/AAAI91-120.pdf)

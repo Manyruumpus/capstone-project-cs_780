@@ -1,0 +1,2 @@
+timestamp_utc,agent_name,mean_score,std_score,runs,max_steps,scaling_factor,arena_size,wall_obstacles,difficulty,box_speed
+2026-04-10T18:47:39.969414+00:00,agent,-5904.200000,11532.598656,10,200,5,500,1,0,2
